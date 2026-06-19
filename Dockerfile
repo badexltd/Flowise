@@ -18,7 +18,7 @@ RUN apk update && \
         pango-dev \
         chromium \
         curl && \
-    npm install -g pnpm@9.15.9
+    npm install -g pnpm@10.26.0
 
 ENV PUPPETEER_SKIP_DOWNLOAD=true
 ENV PUPPETEER_EXECUTABLE_PATH=/usr/bin/chromium-browser
@@ -31,7 +31,7 @@ WORKDIR /usr/src/flowise
 COPY . .
 
 # Install dependencies and build
-RUN pnpm install --no-frozen-lockfile && \
+RUN pnpm install --no-frozen-lockfile --fix-lockfile && \
     pnpm build
 
 # Give the node user ownership of the application files
