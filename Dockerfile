@@ -1,5 +1,5 @@
 # Build local monorepo image
-# docker build --no-cache -t  flowise .
+# docker build --no-cache -t flowise .
 
 # Run image
 # docker run -d -p 3000:3000 flowise
@@ -18,7 +18,7 @@ RUN apk update && \
         pango-dev \
         chromium \
         curl && \
-    npm install -g pnpm
+    npm install -g pnpm@9.15.9
 
 ENV PUPPETEER_SKIP_DOWNLOAD=true
 ENV PUPPETEER_EXECUTABLE_PATH=/usr/bin/chromium-browser
@@ -31,14 +31,13 @@ WORKDIR /usr/src/flowise
 COPY . .
 
 # Install dependencies and build
-RUN rm -f pnpm-lock.yaml && \
-    pnpm install --no-frozen-lockfile && \
+RUN pnpm install --no-frozen-lockfile && \
     pnpm build
 
 # Give the node user ownership of the application files
 RUN chown -R node:node .
 
-# Switch to non-root user (node user already exists in node:20-alpine)
+# Switch to non-root user
 USER node
 
 EXPOSE 3000
