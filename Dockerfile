@@ -31,7 +31,7 @@ WORKDIR /usr/src/flowise
 COPY . .
 
 # Install dependencies and build
-RUN pnpm install && \
+RUN pnpm install --no-frozen-lockfile --fix-lockfile && \
     pnpm build
 
 # Give the node user ownership of the application files
